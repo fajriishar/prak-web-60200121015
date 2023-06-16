@@ -20,17 +20,33 @@ class Mahasiswa015Controller extends \yii\web\Controller
 
     public function actionCreate()
     {
-        $mahasiswa015 = new Mahasiswa015;
-        $mahasiswa015->nim015 = '60200121015'.'-'. rand(1,100);
-        $mahasiswa015->nama015 = 'Rahmat Fajri Ishar';
-        $mahasiswa015->kelas015 = 'D';
-        $mahasiswa015->status015 = 'Baru';
-        if ($mahasiswa015->save()) {
-            Yii::$app->session->setFlash('success','Data Tersimpan');
-        } else {
-            Yii::$app->session->setFlash('error','Gagal Menyimpan Data');
+        $model = new Mahasiswa015;
+        if ( $model->load($this->request->post()) ) {
+            if ($model->save()) {
+                return $this->redirect([
+                    'view',
+                    'id' => $model->id015
+                ]);
+            }
         }
-        return $this->redirect(['index']);
+        else {
+            $model->loadDefaultValues();
+        }
+        return $this->render('create', [
+            'model' => $model
+        ]);
+
+        // $mahasiswa015 = new Mahasiswa015;
+        // $mahasiswa015->nim015 = '60200121015'.'-'. rand(1,100);
+        // $mahasiswa015->nama015 = 'Rahmat Fajri Ishar';
+        // $mahasiswa015->kelas015 = 'D';
+        // $mahasiswa015->status015 = 'Baru';
+        // if ($mahasiswa015->save()) {
+        //     Yii::$app->session->setFlash('success','Data Tersimpan');
+        // } else {
+        //     Yii::$app->session->setFlash('error','Gagal Menyimpan Data');
+        // }
+        // return $this->redirect(['index']);
     }
 
     public function actionUpdate($id)
